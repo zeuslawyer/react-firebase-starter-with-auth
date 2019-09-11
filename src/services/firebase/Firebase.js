@@ -1,7 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 
-import { firebaseConfig } from '../../config/dev.secrets';
+import { firebaseConfig } from '../../config';
 
 export class FirebaseApi {
   constructor() {
@@ -41,9 +41,9 @@ export class FirebaseApi {
   _updatePassword = newPassword =>
     this.auth.currentUser.updatePassword(newPassword);
 
-    /**
-     * send the password reset email to user
-     * @param {string} email - the users email to send the reset email to
-     */
-  _resetPassword =  (email) => this.auth.sendPasswordResetEmail(email)
+  /**
+   * send the password reset email to user
+   * @param {string} email - the users email to send the reset email to
+   */
+  _resetPassword = email => this.auth.sendPasswordResetEmail(email);
 }

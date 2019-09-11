@@ -1,7 +1,13 @@
 import React from 'react';
+import SignUpForm from  './SignUpForm'
 
-function SignUpPage() {
-  return <div>SIGNUP PAGE</div>;
-}
+
+
+const SignUpPage =  () =>(
+  <>
+  <h1> SIGN UP FORM</h1>
+  <SignUpForm />
+  </>
+)
 
 export default SignUpPage;
