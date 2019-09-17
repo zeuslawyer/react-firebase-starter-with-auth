@@ -1,13 +1,13 @@
 import React from 'react';
-import SignUpForm from  './SignUpForm'
+import { Link } from 'react-router-dom';
 
+import SignUpForm from './SignUpForm';
 
-
-const SignUpPage =  () =>(
+const SignUpPage = () => (
   <>
-  <h1> SIGN UP FORM</h1>
-  <SignUpForm />
+    <h1> SIGN UP FORM</h1>
+    <SignUpForm />
   </>
-)
+);
 
 export default SignUpPage;

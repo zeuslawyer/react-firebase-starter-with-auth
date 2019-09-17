@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
-import { useFormHook } from '../hooks/formInputHook';
+import { useFormInputHook } from '../hooks/formInputHook';
+import { withFirebase } from '../../services/firebase/context.js';
+import * as ROUTES from '../../constants/routes';
 
-// this is not as per the guide.  Using hooks instead of stateful class component
+// this component is NOT as per the guide.  Using hooks instead of stateful class component
 // REFERENCE:  https://rangle.io/blog/simplifying-controlled-inputs-with-hooks/
 
-const SignUpForm = props => {
+const _SignUpForm = props => {
   //hooks
   const [error, setError] = useState({ message: '' });
 
@@ -14,26 +18,37 @@ const SignUpForm = props => {
     value: emailValue,
     setValue: setEmailValue,
     reset: resetEmail
-  } = useFormHook('');
+  } = useFormInputHook();
   const {
     value: pwd1Value,
     setValue: setpwd1Value,
     reset: resetPwd1
-  } = useFormHook('');
+  } = useFormInputHook();
   const {
     value: pwd2Value,
     setValue: setpwd2Value,
     reset: resetPwd2
-  } = useFormHook('');
+  } = useFormInputHook();
 
   // on submit handler
   const onSubmit = e => {
     e.preventDefault();
     console.log(`Submitting: ${emailValue}, ${pwd1Value}, ${pwd2Value}`);
 
-    resetEmail();
-    resetPwd2();
-    resetPwd1();
+    props.firebase
+      ._createUserWithEmailAndPassword(emailValue, pwd1Value)
+      .then(authUser => {
+        // reset fields
+        resetEmail();
+        resetPwd2();
+        resetPwd1();
+
+        // use the returned authorised user object
+        console.log('RETURNED FROM FIREBASE:  ', authUser);
+        //redirect to user's home page
+        // props.history.push(ROUTES.HOME);
+      })
+      .catch(err => setError({ message: err.message }));
   };
 
   // basic form validation, disables button too
@@ -41,6 +56,7 @@ const SignUpForm = props => {
 
   useEffect(() => {
     isInvalidInput && setError({ message: "Passwords don't match." });
+    !isInvalidInput && setError({ message: '' });
   }, [isInvalidInput]);
 
   return (
@@ -73,9 +89,14 @@ const SignUpForm = props => {
         Sign Up
       </button>
 
-      {error && <p>{error.message}</p>}
+      {error.message && <p style={{ color: 'red' }}>{error.message}</p>}
     </form>
   );
 };
 
+// wrap with react router, then inject firebaseApi into form
+const SignUpForm = compose(
+  withRouter,
+  withFirebase
+)(_SignUpForm);
 export default SignUpForm;

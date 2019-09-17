@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 import App from './components/App';
-import { FirebaseApi, firebaseContext } from './services/firebase';
+import { FirebaseApi, FirebaseContext } from './services/firebase';
 
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <firebaseContext.Provider value={new FirebaseApi()}>
+  <FirebaseContext.Provider value={new FirebaseApi()}>
     <App />
-  </firebaseContext.Provider>,
+  </FirebaseContext.Provider>,
   document.getElementById('root')
 );
 
