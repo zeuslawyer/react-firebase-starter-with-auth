@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { useFormInputHook } from '../hooks/formInputHook';
-import { withFirebase } from '../../services/firebase/context.js';
+import { withFirebase } from '../../services/firebase/firebaseContextHOC.js';
 import * as ROUTES from '../../constants/routes';
 
 // this component is NOT as per the guide.  Using hooks instead of stateful class component
@@ -46,9 +46,9 @@ const _SignUpForm = props => {
         // use the returned authorised user object
         console.log('RETURNED FROM FIREBASE:  ', authUser);
         //redirect to user's home page
-        // props.history.push(ROUTES.HOME);
+        props.history.push(ROUTES.HOME);
       })
-      .catch(err => setError({ message: err.message }));
+      .catch(err => setError(err));
   };
 
   // basic form validation, disables button too

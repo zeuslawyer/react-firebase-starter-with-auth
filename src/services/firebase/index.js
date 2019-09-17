@@ -1,4 +1,4 @@
-import { FirebaseContext, withFirebase } from './context';
+import { FirebaseContext, withFirebase } from './firebaseContextHOC';
 import { FirebaseApi } from './Firebase';
 
 export { FirebaseApi, FirebaseContext, withFirebase };
