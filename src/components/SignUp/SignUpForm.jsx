@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
+import { compose } from 'redux';
 
 import { useFormInputHook } from '../hooks/formInputHook';
 import { withFirebase } from '../../services/firebase/firebaseContextHOC.js';

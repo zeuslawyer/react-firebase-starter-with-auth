@@ -2,32 +2,39 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
+import SignOutButton from '../../components/SignOut/index';
 
-const Navigation = () => {
+const Navigation = props => {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to={ROUTES.SIGN_IN}>SIGN IN</Link>
-        </li>
-        <li>
-          <Link to={ROUTES.LANDING}>LANDING</Link>
-        </li>
-        <li>
-          <Link to={ROUTES.HOME}>HOME</Link>
-        </li>
-        <li>
-          <Link to={ROUTES.ACCOUNT}>ACCOUNT</Link>
-        </li>
-        <li>
-          <Link to={ROUTES.ADMIN}>ADMIN</Link>
-        </li>
-        <li>
-          <Link to={ROUTES.SIGN_UP}>SIGNUP</Link>
-        </li>
-      </ul>
-    </nav>
+    <nav>{props.authUser ? <NavigationWithAuth /> : <NavigationNonAuth />}</nav>
   );
 };
+
+const NavigationWithAuth = () => (
+  <ul>
+    <li>
+      <Link to={ROUTES.LANDING}>Landing</Link>
+    </li>
+    <li>
+      <Link to={ROUTES.HOME}>Home</Link>
+    </li>
+    <li>
+      <Link to={ROUTES.ACCOUNT}>Account</Link>
+    </li>
+    <li>
+      <SignOutButton />
+    </li>
+  </ul>
+);
+const NavigationNonAuth = () => (
+  <ul>
+    <li>
+      <Link to={ROUTES.LANDING}>Landing</Link>
+    </li>
+    <li>
+      <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+    </li>
+  </ul>
+);
 
 export default Navigation;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
+import { compose } from 'redux';
 
 import { withFirebase } from '../../services/firebase/firebaseContextHOC';
 import * as ROUTES from '../../constants/routes';
@@ -10,14 +10,13 @@ import * as ROUTES from '../../constants/routes';
 
 const _SignInForm = props => {
   //hooks
-  const [error, setError] = useState({ message: '' });
+  const [error, setError] = useState({ message: '', code: null });
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
 
   // on submit handler
   const onSubmit = e => {
     e.preventDefault();
-    console.log(`Submitting: ${email}, ${pwd}`);
 
     props.firebase
       ._signInWithEmailAndPassword(email, pwd)
@@ -29,18 +28,29 @@ const _SignInForm = props => {
         // navigate to users home page
         props.history.push(ROUTES.HOME);
       })
-      .catch(err => setError(err));
+      .catch(err => {
+        console.log(err);
+        setError({ message: err.message, code: err.code });
+      });
   };
 
   // basic form validation, disables button too
   const isInvalidInput = pwd.length > 0 && pwd.length < 6;
 
   useEffect(() => {
+    // set error
     isInvalidInput &&
       setError({
-        message: 'Password must be at least 6 characters long.'
+        message: 'Password must be at least 6 characters long.',
+        code: null
       });
-    !isInvalidInput && setError({ message: '' });
+
+    // unset error when fixed
+    !isInvalidInput &&
+      setError({
+        message: '',
+        code: null
+      });
   }, [isInvalidInput]);
 
   return (

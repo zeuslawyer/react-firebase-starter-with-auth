@@ -1,6 +1,7 @@
 # CREATE REACT APP + JAVASCRIPT + NODE + REDUX + FIREBASE
 
-This is meant to be a boilerplate app to clone for future auth purposes.
+This is meant to be a boilerplate app to clone for future auth purposes.  
+The Firebase project used for bootstrapping this is `myuniversalserver`
 
 **uses`yarn` for dependency management and for scripts**
 

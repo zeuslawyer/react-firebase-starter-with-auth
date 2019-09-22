@@ -3,7 +3,8 @@ import React from 'react';
 export const FirebaseContext = React.createContext(null);
 
 /**
- * HOC that injects the firebaseApi into the passed component. Returns the component, with its native props and injected firebaseApi prop
+ * HOC that injects the firebaseApi into the child component. Returns the component as a context consumer, with its native props 
+ * and injected firebaseApi prop
  * @param {Object} Component - the Component to be injected with the firebaseApi
  *
  */
