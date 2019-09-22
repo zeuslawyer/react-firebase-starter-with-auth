@@ -6,7 +6,15 @@ import SignOutButton from '../../components/SignOut/index';
 
 const Navigation = props => {
   return (
-    <nav>{props.authUser ? <NavigationWithAuth /> : <NavigationNonAuth />}</nav>
+    <nav>
+      {props.loading ? (
+        <> loading...</>
+      ) : props.authUser ? (
+        <NavigationWithAuth />
+      ) : (
+        <NavigationNonAuth />
+      )}
+    </nav>
   );
 };
 

@@ -13,24 +13,26 @@ import { withFirebase } from '../../services/firebase/firebaseContextHOC';
 
 function App(props) {
   const [authUser, setAuthUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const onAuthChange = authUser => {
     setAuthUser(authUser);
+    setLoading(false);
   };
 
   // REFERENCE:  https://dev.to/bmcmahen/using-firebase-with-react-hooks-21ap
   useEffect(() => {
-    // listen for auth state changes
-    const listener = props.firebase.auth.onAuthStateChanged(onAuthChange);
+    // listen for auth state changes - async
+    const authListener = props.firebase.auth.onAuthStateChanged(onAuthChange);
 
     // cleanup on unmount
-    return () => listener();
-  }, [props.firebase.auth]);
+    return () => authListener();
+  }, []);
 
   return (
     <Router>
       <>
-        <Navigation authUser={authUser} />
+        <Navigation authUser={authUser} loading={loading} />
         <hr />
         <Route exact path={ROUTES.LANDING} component={Landing} />
         <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
