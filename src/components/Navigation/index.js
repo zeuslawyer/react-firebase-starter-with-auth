@@ -2,23 +2,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
+import { AuthUserContext } from '../../services/firebase';
 import SignOutButton from '../../components/SignOut/index';
 
-const Navigation = props => {
+const Navigation = () => {
   return (
-    <nav>
-      {props.loading ? (
-        <> loading...</>
-      ) : props.authUser ? (
-        <NavigationWithAuth />
-      ) : (
-        <NavigationNonAuth />
-      )}
-    </nav>
+    <AuthUserContext.Consumer>
+      {authUser =>
+        authUser ? (
+          <NavigationWithAuth authUser={authUser} />
+        ) : (
+          <NavigationNonAuth />
+        )
+      }
+    </AuthUserContext.Consumer>
   );
 };
 
-const NavigationWithAuth = () => (
+const NavigationWithAuth = props => (
   <ul>
     <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
@@ -34,6 +35,7 @@ const NavigationWithAuth = () => (
     </li>
   </ul>
 );
+
 const NavigationNonAuth = () => (
   <ul>
     <li>

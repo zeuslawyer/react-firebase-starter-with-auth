@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Navigation from '../Navigation';
@@ -9,40 +9,21 @@ import SignInPage from '../SignIn';
 import Account from '../Account';
 import Admin from '../Admin';
 import * as ROUTES from '../../constants/routes';
-import { withFirebase } from '../../services/firebase/firebaseContextHOC';
+import  {withAuthUser}  from '../../services/firebase';
 
-function App(props) {
-  const [authUser, setAuthUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const onAuthChange = authUser => {
-    setAuthUser(authUser);
-    setLoading(false);
-  };
-
-  // REFERENCE:  https://dev.to/bmcmahen/using-firebase-with-react-hooks-21ap
-  useEffect(() => {
-    // listen for auth state changes - async
-    const authListener = props.firebase.auth.onAuthStateChanged(onAuthChange);
-
-    // cleanup on unmount
-    return () => authListener();
-  }, []);
-
+function App() {
   return (
     <Router>
-      <>
-        <Navigation authUser={authUser} loading={loading} />
-        <hr />
-        <Route exact path={ROUTES.LANDING} component={Landing} />
-        <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-        <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-        <Route path={ROUTES.HOME} component={Home} />
-        <Route path={ROUTES.ACCOUNT} component={Account} />
-        <Route path={ROUTES.ADMIN} component={Admin} />
-      </>
+      <Navigation />
+      <hr />
+      <Route exact path={ROUTES.LANDING} component={Landing} />
+      <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+      <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+      <Route path={ROUTES.HOME} component={Home} />
+      <Route path={ROUTES.ACCOUNT} component={Account} />
+      <Route path={ROUTES.ADMIN} component={Admin} />
     </Router>
   );
 }
 
-export default withFirebase(App);
+export default withAuthUser(App);

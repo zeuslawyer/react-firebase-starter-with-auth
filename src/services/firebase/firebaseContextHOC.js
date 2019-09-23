@@ -9,7 +9,7 @@ export const FirebaseContext = React.createContext(null);
  *
  */
 
- // NOTE:  this uses the Consumer wrapper
+// NOTE:  this uses the Consumer wrapper
 // export const withFirebase = Component => {
 //   return props => {
 //     return (
@@ -20,11 +20,12 @@ export const FirebaseContext = React.createContext(null);
 //   };
 // };
 
-
 // this uses the useContext Hook
-export const withFirebase = Component => {
+const withFirebase = Component => {
   return props => {
     const context = useContext(FirebaseContext);
     return <Component {...props} firebase={context} />;
   };
 };
+
+export default withFirebase;

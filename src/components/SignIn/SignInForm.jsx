@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 
-import { withFirebase } from '../../services/firebase/firebaseContextHOC';
+import { withFirebase } from '../../services/firebase';
 import * as ROUTES from '../../constants/routes';
 
 // this component is NOT as per the guide.

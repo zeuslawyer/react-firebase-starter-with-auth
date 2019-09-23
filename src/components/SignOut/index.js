@@ -1,5 +1,5 @@
 import React from 'react';
-import { withFirebase } from '../../services/firebase/firebaseContextHOC';
+import { withFirebase } from '../../services/firebase';
 
 const SignOutButton = ({ firebase }) => {
   return (

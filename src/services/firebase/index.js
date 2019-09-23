@@ -1,4 +1,6 @@
-import { FirebaseContext, withFirebase } from './firebaseContextHOC';
+import withAuthUser, {AuthUserContext} from './AuthUserContextHOC';
 import { FirebaseApi } from './Firebase';
+import  withFirebase, {FirebaseContext}  from './FirebaseContextHOC';
 
-export { FirebaseApi, FirebaseContext, withFirebase };
+
+export { AuthUserContext, FirebaseApi, FirebaseContext, withAuthUser, withFirebase };

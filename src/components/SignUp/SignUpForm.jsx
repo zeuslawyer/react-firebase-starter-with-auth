@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 
 import { useFormInputHook } from '../hooks/formInputHook';
-import { withFirebase } from '../../services/firebase/firebaseContextHOC.js';
+import { withFirebase } from '../../services/firebase';
 import * as ROUTES from '../../constants/routes';
 
 // this component is NOT as per the guide.  Using hooks instead of stateful class component
