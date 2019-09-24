@@ -2,6 +2,7 @@ import React from 'react';
 
 import SignInForm from './SignInForm';
 import SignUpLink from '../SignUp/SignUpLink';
+import { PasswordForgetLink } from '../PasswordForget';
 
 function SignInPage() {
   return (
@@ -9,6 +10,7 @@ function SignInPage() {
       <h2>Login</h2>
       <SignInForm />
       <SignUpLink />
+      <PasswordForgetLink />
     </>
   );
 }

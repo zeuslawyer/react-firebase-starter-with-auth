@@ -3,6 +3,9 @@ import 'firebase/auth';
 
 import { firebaseConfig } from '../../config';
 
+/**
+ * An interface wrapper for the Firebase API
+ */
 export class FirebaseApi {
   constructor() {
     app.initializeApp(firebaseConfig);

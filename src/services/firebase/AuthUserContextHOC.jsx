@@ -16,10 +16,11 @@ const withAuthUser = Component => {
     // REFERENCE:  https://dev.to/bmcmahen/using-firebase-with-react-hooks-21ap
     useEffect(() => {
       // listen for auth state changes - async
-      const authListener = props.firebase.auth.onAuthStateChanged(onAuthChange);
+      // on authStateChanged starts a listener and returns an unsubscribe object
+      const endListener = props.firebase.auth.onAuthStateChanged(onAuthChange);
 
       // cleanup on unmount
-      return () => authListener();
+      return () => endListener();
     }, []);
 
     return (

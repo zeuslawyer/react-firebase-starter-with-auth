@@ -65,7 +65,7 @@ const _SignUpForm = props => {
         name='email'
         value={emailValue}
         onChange={e => setEmailValue(e.target.value)}
-        type='text'
+        type='email'
         placeholder='email'
         required
       ></input>

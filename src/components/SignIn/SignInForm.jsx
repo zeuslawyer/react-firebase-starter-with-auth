@@ -60,7 +60,7 @@ const _SignInForm = props => {
         value={email}
         // onChange={e => setEmailValue(e.target.value)}
         onChange={e => setEmail(e.target.value)}
-        type='text'
+        type='email'
         placeholder='email'
         required
       ></input>

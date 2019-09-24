@@ -8,6 +8,7 @@ import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import Account from '../Account';
 import Admin from '../Admin';
+import PasswordForgetPage from  '../PasswordForget'
 import * as ROUTES from '../../constants/routes';
 import  {withAuthUser}  from '../../services/firebase';
 
@@ -22,6 +23,7 @@ function App() {
       <Route path={ROUTES.HOME} component={Home} />
       <Route path={ROUTES.ACCOUNT} component={Account} />
       <Route path={ROUTES.ADMIN} component={Admin} />
+      <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
     </Router>
   );
 }
