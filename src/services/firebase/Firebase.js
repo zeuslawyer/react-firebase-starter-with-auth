@@ -41,8 +41,9 @@ export class FirebaseApi {
    * update  or change password. The user must have recently signed in for this to work.  refer to API docs.
    * @param {string} newPassword - the new password
    */
-  _updatePassword = newPassword =>
+  _updatePassword = newPassword => {
     this.auth.currentUser.updatePassword(newPassword);
+  };
 
   /**
    * send the password reset email to user
