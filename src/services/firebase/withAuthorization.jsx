@@ -1,36 +1,35 @@
-import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
-import { withFirebase, AuthUserContext } from '.';
+import React, { useContext, useEffect } from 'react';
+import { AuthUserContext } from './';
 import * as ROUTES from '../../constants/routes';
+import { withFirebase } from './index';
+import { compose } from 'redux';
 
 /**
- * a HOC that takes a authRulesCondition regarding route protection and redirects if users not authorized to see route.
- * It is a function that takes the authRulesCondition function as arg, and returns a function that takes a Component,  and then returns a component with redirect logic embedded in it
- * @param {function} authRulesCondition
+ * a HOC to wrap all protected routes.
+ * Assumes that there is an existing Route component that renders the wrapped component so that Router props get passed in.
+ * @returns a functional component that takes in router props and other passed in props and renders protected route or redirects to signin page
  */
-const withRouteAuthorization = authRulesCondition => {
-  return function(Component) {
-    const useAuthorization = props => {
-      return (
-        // check if the condition  // TODO:   this logic is not necessary?
-        <AuthUserContext.Consumer>
-          {authUser =>
-            authRulesCondition(authUser) ? (
-              <Component {...props} />
-            ) : (
-              props.history.push(ROUTES.SIGN_IN)
-            )
-          }
-        </AuthUserContext.Consumer>
-      );
-    };
+const Protected = Component => {
+  const ProtectedRoute = props => {
+    const context = useContext(AuthUserContext);
 
-    return compose(
-      withRouter,
-      withFirebase
-    )(useAuthorization);
+    useEffect(() => {
+      // if no authUser then route to sign in page
+      let endListener = props.firebase.auth.onAuthStateChanged(authUser => {
+        !authUser && props.history.push(ROUTES.SIGN_IN);
+      });
+
+      // cleanup on unmount
+      return () => {
+        endListener();
+      };
+    });
+
+    // return home page, or null if authed user not registered in <App />
+    return context ? <Component {...props} authUser={context} /> : null;
+    // check if the condition  // TODO:   this logic is not necessary?
   };
+  return compose(withFirebase)(ProtectedRoute);
 };
 
-export default withRouteAuthorization;
+export default Protected;

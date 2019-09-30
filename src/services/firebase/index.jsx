@@ -1,7 +1,13 @@
-import withUser, {AuthUserContext} from './AuthUserContextHOC';
+import WithUserContextProvider, { AuthUserContext } from './AuthUserContextHOC';
 import { FirebaseApi } from './Firebase';
-import  withFirebase, {FirebaseContext}  from './FirebaseContextHOC';
-import withRouteAuthorization from './withAuthorization'
+import withFirebase, { FirebaseContext } from './FirebaseContextHOC';
+import Protected from './withAuthorization';
 
-
-export { AuthUserContext, FirebaseApi, FirebaseContext, withUser, withFirebase, withRouteAuthorization };
+export {
+  AuthUserContext,
+  FirebaseApi,
+  FirebaseContext,
+  WithUserContextProvider,
+  withFirebase,
+  Protected
+};

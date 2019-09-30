@@ -1,4 +1,5 @@
 import React from 'react';
+import { Protected } from '../../services/firebase';
 
 import PasswordChangePage from '../PasswordChange';
 
@@ -11,4 +12,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default Protected(Account);

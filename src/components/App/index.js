@@ -8,10 +8,9 @@ import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import Account from '../Account';
 import Admin from '../Admin';
-import PasswordForgetPage from  '../PasswordForget'
+import PasswordForgetPage from '../PasswordForget';
 import * as ROUTES from '../../constants/routes';
-import  {withUser}  from '../../services/firebase';
-
+import { WithUserContextProvider } from '../../services/firebase';
 
 function App() {
   return (
@@ -29,5 +28,4 @@ function App() {
   );
 }
 
-export default withUser(App);
-
+export default WithUserContextProvider(App);

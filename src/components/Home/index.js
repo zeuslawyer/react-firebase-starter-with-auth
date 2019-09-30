@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouteAuthorization } from '../../services/firebase';
+import { Protected } from '../../services/firebase';
 
 function Home() {
   return (
@@ -9,9 +9,5 @@ function Home() {
     </div>
   );
 }
-const condition = authUser => {
-  console.log('hmmm', !!authUser);
-  return !!authUser;
-};
 
-export default withRouteAuthorization(condition)(Home);
+export default Protected(Home);

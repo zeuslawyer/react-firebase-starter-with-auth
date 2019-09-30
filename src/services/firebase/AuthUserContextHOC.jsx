@@ -4,7 +4,7 @@ import { withFirebase } from './index';
 
 export const AuthUserContext = React.createContext(null);
 
-const withUser = Component => {
+const WithUserContextProvider = Component => {
   // create a component that can then be wrapped with withFirebase as it needs access to the props.firebase prop
   const useAuth = props => {
     const [authUser, setAuthUser] = useState(null);
@@ -21,7 +21,7 @@ const withUser = Component => {
 
       // cleanup on unmount
       return () => endListener();
-    }, []);
+    });
 
     return (
       <AuthUserContext.Provider value={authUser}>
@@ -34,4 +34,4 @@ const withUser = Component => {
   return withFirebase(useAuth);
 };
 
-export default withUser;
+export default WithUserContextProvider;
