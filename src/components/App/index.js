@@ -10,7 +10,7 @@ import Account from '../Account';
 import Admin from '../Admin';
 import PasswordForgetPage from  '../PasswordForget'
 import * as ROUTES from '../../constants/routes';
-import  {withAuthUser}  from '../../services/firebase';
+import  {withUser}  from '../../services/firebase';
 
 
 function App() {
@@ -29,5 +29,5 @@ function App() {
   );
 }
 
-export default withAuthUser(App);
+export default withUser(App);
 
