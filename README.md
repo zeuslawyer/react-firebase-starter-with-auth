@@ -11,6 +11,8 @@ The Firebase project used for bootstrapping this is `myuniversalserver`
 
 2. each folder is designed to be a module - each folder has an `index.js` file that serves as an entry point to the module by exporting key objects from it.
 
+3. the firebase API has been given a thin wrapper, and a class. Instances of that class are passed as the `firebase` prop through the App using, primarily, the `withFirebase` HOC.
+
 ### Congigure multiple environments for dev and prod
 
 - https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial#firebase-in-react-setup

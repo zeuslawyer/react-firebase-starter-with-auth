@@ -1,12 +1,12 @@
-import React from 'react'
-import PasswordChangeForm from './PasswordChangeForm'
+import React from 'react';
+import PasswordResetForm from './PasswordResetForm';
 
 function PasswordChangePage() {
   return (
     <>
-      <PasswordChangeForm />
+      <PasswordResetForm />
     </>
-  )
+  );
 }
 
-export default PasswordChangePage
+export default PasswordChangePage;

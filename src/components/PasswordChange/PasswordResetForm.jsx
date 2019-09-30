@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   message: null
 };
 
-class PasswordChangeForm extends Component {
+class PasswordResetPage extends Component {
   constructor(props) {
     super(props);
     this.state = INITIAL_STATE;
@@ -18,7 +18,6 @@ class PasswordChangeForm extends Component {
   handleOnChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-
 
   handleSubmit = e => {
     e.preventDefault();
@@ -36,17 +35,22 @@ class PasswordChangeForm extends Component {
       });
   };
 
-  handlePasswordError = (isPasswordMismatch) => {
-     return isPasswordMismatch ? 'Passwords do not match. ' : 'Passwords must be at least 6 characters long.'
-  }
+  handlePasswordError = isPasswordMismatch => {
+    return isPasswordMismatch
+      ? 'Passwords do not match. '
+      : 'Passwords must be at least 6 characters long.';
+  };
 
-  
   render() {
-    const {password1, password2} = this.state
-    const isPasswordMismatch = (password1 && password2 && (password1 !== password2))
-    const isInvalid = isPasswordMismatch || (password1 && this.state.password1.length < 6);
+    const { password1, password2 } = this.state;
+    const isPasswordMismatch =
+      password1 && password2 && password1 !== password2;
+    const isInvalid =
+      isPasswordMismatch || (password1 && this.state.password1.length < 6);
     return (
       <>
+        <hr />
+        <h3>Reset your password</h3>
         {this.state.message && <p>{this.state.message}</p>}
 
         {!this.state.message && (
@@ -75,7 +79,9 @@ class PasswordChangeForm extends Component {
                 <p style={{ color: 'red' }}>{this.state.error}</p>
               )}
               {isInvalid && (
-                <p style={{ color: 'red' }}>{this.handlePasswordError(isPasswordMismatch)}</p>
+                <p style={{ color: 'red' }}>
+                  {this.handlePasswordError(isPasswordMismatch)}
+                </p>
               )}
             </div>
           </form>
@@ -85,4 +91,4 @@ class PasswordChangeForm extends Component {
   }
 }
 
-export default withFirebase(PasswordChangeForm);
+export default withFirebase(PasswordResetPage);

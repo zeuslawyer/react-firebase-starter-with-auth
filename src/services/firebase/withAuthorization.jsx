@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import { AuthUserContext } from './';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from './index';
-import { compose } from 'redux';
 
 /**
  * a HOC to wrap all protected routes.
@@ -29,7 +28,9 @@ const Protected = Component => {
     return context ? <Component {...props} authUser={context} /> : null;
     // check if the condition  // TODO:   this logic is not necessary?
   };
-  return compose(withFirebase)(ProtectedRoute);
+
+  // withFirebase needed to inject firebase.auth into this component
+  return withFirebase(ProtectedRoute);
 };
 
 export default Protected;

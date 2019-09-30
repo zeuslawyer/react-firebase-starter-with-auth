@@ -34,7 +34,9 @@ export class FirebaseApi {
     return this.auth.signInWithEmailAndPassword(email, password);
   };
 
-  /** signout the user */
+  /** Signout the user. 
+   * --
+   * Will trigger every instance of firebase.auth.onAuthStateChanged() in the app. */
   _signOut = () => this.auth.signOut();
 
   /**

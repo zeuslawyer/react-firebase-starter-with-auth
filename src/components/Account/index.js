@@ -1,13 +1,14 @@
 import React from 'react';
 import { Protected } from '../../services/firebase';
 
-import PasswordChangePage from '../PasswordChange';
+import PasswordResetPage from '../PasswordChange';
 
-function Account() {
+function Account({ authUser }) {
   return (
     <div>
       <h1>ACCOUNT PAGE</h1>
-      <PasswordChangePage />
+      <p> Username: {authUser.email}</p>
+      <PasswordResetPage />
     </div>
   );
 }
