@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { useFormInputHook } from '../hooks/formInputHook';
 import { withFirebase } from '../../services/firebase';
 import * as ROUTES from '../../constants/routes';
+import ROLES from '../../constants/roles';
 
 // this component is NOT as per the guide.  Using hooks instead of stateful class component
 // REFERENCE:  https://rangle.io/blog/simplifying-controlled-inputs-with-hooks/
@@ -33,21 +34,21 @@ const _SignUpForm = props => {
   // on submit handler
   const onSubmit = e => {
     e.preventDefault();
-    console.log(`Submitting: ${emailValue}, ${pwd1Value}, ${pwd2Value}`);
+    // console.log(`Submitting: ${emailValue}, ${pwd1Value}, ${pwd2Value}`);
 
     // create firebase auth user
     props.firebase
       ._createUserWithEmailAndPassword(emailValue, pwd1Value)
       .then(authUser => {
         // save user to DB
-        props.firebase._user(authUser.user.uid).set({ emailValue });
+        props.firebase
+          ._user(authUser.user.uid)
+          .set({ emailValue, role: ROLES.BASIC });
         // reset fields
         resetEmail();
         resetPwd2();
         resetPwd1();
 
-        // use the returned authorised user object
-        console.log('RETURNED FROM FIREBASE:  ', authUser);
         //redirect to user's home page
         props.history.push(ROUTES.HOME);
       })

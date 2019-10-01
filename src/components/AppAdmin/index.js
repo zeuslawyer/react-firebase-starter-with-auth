@@ -9,7 +9,6 @@ function AppAdmin({ firebase }) {
   useEffect(() => {
     // attach listener to all users node in database
     firebase._allUsers().on('value', snapshot => {
-      console.log('look here....', snapshot.val());
       let users = snapshot.val(); // is an object
       users = Object.keys(users).map(key => ({ uid: key, ...users[key] })); // transform to array
 

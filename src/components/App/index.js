@@ -12,7 +12,7 @@ import PasswordForgetPage from '../PasswordForget';
 import * as ROUTES from '../../constants/routes';
 import { WithUserContextProvider } from '../../services/firebase';
 
-function App() {
+function App({ location }) {
   return (
     <Router>
       <Navigation />

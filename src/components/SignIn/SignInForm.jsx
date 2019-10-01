@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-
+import * as ROUTES from '../../constants/routes'
 import { withFirebase } from '../../services/firebase';
-import * as ROUTES from '../../constants/routes';
+
 
 // this component is NOT as per the guide.
 // and it does NOT use the useFormHooks custom hook
 
 const _SignInForm = props => {
+
   //hooks
   const [error, setError] = useState({ message: '', code: null });
   const [email, setEmail] = useState('');
@@ -25,8 +26,12 @@ const _SignInForm = props => {
         setEmail('');
         setPwd('');
 
-        // navigate to users home page
-        props.history.push(ROUTES.HOME);
+        // navigate to users home page if the sign in was rendered via a <Link> click. REFERENCE:  https://tylermcginnis.com/react-router-pass-props-to-link/
+        if (props.location.state && props.location.state.navFromLink ) props.history.push(ROUTES.HOME);
+
+        //else , the user has come to sign in page because of protected routes. Go back to the protected route.
+        props.history.goBack()
+        // props.history.push(ROUTES.HOME);
       })
       .catch(err => {
         console.log(err);

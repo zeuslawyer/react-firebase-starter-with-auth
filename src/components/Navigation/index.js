@@ -30,7 +30,9 @@ const NavigationWithAuth = props => (
     <li>
       <Link to={ROUTES.ACCOUNT}>Account</Link>
     </li>
-    {['tCq25ZSluxQl48kcmVlyJ69si0d2'].some(uid => uid === props.authUser.uid) && (
+    {['tCq25ZSluxQl48kcmVlyJ69si0d2'].some(
+      uid => uid === props.authUser.uid
+    ) && (
       <li>
         <Link to={ROUTES.ADMIN}>APP ADMIN</Link>
       </li>
@@ -41,13 +43,16 @@ const NavigationWithAuth = props => (
   </ul>
 );
 
+// reference for link state:  https://tylermcginnis.com/react-router-pass-props-to-link/
 const NavigationNonAuth = () => (
   <ul>
     <li>
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>
     <li>
-      <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+      <Link to={{ pathname: ROUTES.SIGN_IN, state: { navFromLink: true } }}>
+        Sign In
+      </Link>
     </li>
   </ul>
 );
