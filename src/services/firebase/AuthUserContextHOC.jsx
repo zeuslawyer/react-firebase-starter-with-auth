@@ -10,7 +10,17 @@ const WithUserContextProvider = Component => {
     const [authUser, setAuthUser] = useState(null);
 
     const onAuthChange = authUser => {
-      setAuthUser(authUser);
+      if (authUser) {
+        // fetch user from database and merge with the auth user entity
+        props.firebase
+          ._user(authUser.uid)
+          .once('value')
+          .then(snapshot => {
+            const dbUser = snapshot.val();
+            authUser = { uid: authUser.uid, email: authUser.email, ...dbUser };
+            setAuthUser(authUser);
+          });
+      }
     };
 
     // REFERENCE:  https://dev.to/bmcmahen/using-firebase-with-react-hooks-21ap
@@ -18,10 +28,10 @@ const WithUserContextProvider = Component => {
       // listen for auth state changes - async
       // on authStateChanged starts a listener and returns an unsubscribe object
       const endListener = props.firebase.auth.onAuthStateChanged(onAuthChange);
-
+      
       // cleanup on unmount
       return () => endListener();
-    });
+    }, []);
 
     return (
       <AuthUserContext.Provider value={authUser}>
