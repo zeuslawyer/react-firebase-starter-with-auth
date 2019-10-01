@@ -6,7 +6,7 @@ export const AuthUserContext = React.createContext(null);
 
 const WithUserContextProvider = Component => {
   // create a component that can then be wrapped with withFirebase as it needs access to the props.firebase prop
-  const useAuth = props => {
+  const useAuthUser = props => {
     const [authUser, setAuthUser] = useState(null);
 
     const onAuthChange = authUser => {
@@ -31,7 +31,7 @@ const WithUserContextProvider = Component => {
   };
 
   // inject the firebase class into it so it can access firebase.auth and the listener
-  return withFirebase(useAuth);
+  return withFirebase(useAuthUser);
 };
 
 export default WithUserContextProvider;

@@ -1,3 +1,3 @@
-import {firebaseConfig} from './dev.secrets'
+import { firebaseConfig } from './dev.secrets';
 
-export {firebaseConfig}
+export { firebaseConfig };

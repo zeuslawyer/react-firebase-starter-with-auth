@@ -35,9 +35,12 @@ const _SignUpForm = props => {
     e.preventDefault();
     console.log(`Submitting: ${emailValue}, ${pwd1Value}, ${pwd2Value}`);
 
+    // create firebase auth user
     props.firebase
       ._createUserWithEmailAndPassword(emailValue, pwd1Value)
       .then(authUser => {
+        // save user to DB
+        props.firebase._user(authUser.user.uid).set({ emailValue });
         // reset fields
         resetEmail();
         resetPwd2();

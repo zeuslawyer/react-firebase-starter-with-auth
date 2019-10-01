@@ -24,9 +24,8 @@ const Protected = Component => {
       };
     });
 
-    // return home page, or null if authed user not registered in <App />
+    // return home page, or null if authed user not registered in <App /> context provider
     return context ? <Component {...props} authUser={context} /> : null;
-    // check if the condition  // TODO:   this logic is not necessary?
   };
 
   // withFirebase needed to inject firebase.auth into this component

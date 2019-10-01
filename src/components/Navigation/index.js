@@ -30,6 +30,11 @@ const NavigationWithAuth = props => (
     <li>
       <Link to={ROUTES.ACCOUNT}>Account</Link>
     </li>
+    {['tCq25ZSluxQl48kcmVlyJ69si0d2'].some(uid => uid === props.authUser.uid) && (
+      <li>
+        <Link to={ROUTES.ADMIN}>APP ADMIN</Link>
+      </li>
+    )}
     <li>
       <SignOutButton />
     </li>
