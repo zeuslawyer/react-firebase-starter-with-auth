@@ -4,10 +4,14 @@ import { withFirebase } from './index';
 
 export const AuthUserContext = React.createContext(null);
 
+/**
+ * Injects the authorised firebase user object into top level <App /> component via the context API.  Can be null value if not authed.
+ * @param {Function} Component - this HOC is to wrap the top level <App /> component only.
+ */
 const WithUserContextProvider = Component => {
   // create a component that can then be wrapped with withFirebase as it needs access to the props.firebase prop
   const useAuthUser = props => {
-    const [authUser, setAuthUser] = useState(null);
+    const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser'))); // null if signed out.  if signed in, prevents reload flicker
 
     const onAuthChange = authUser => {
       if (authUser) {
@@ -19,7 +23,13 @@ const WithUserContextProvider = Component => {
             const dbUser = snapshot.val();
             authUser = { uid: authUser.uid, email: authUser.email, ...dbUser };
             setAuthUser(authUser);
+
+            // persist in local storage to avoid reload flicker.  To set expiry time, use cookie instead
+            localStorage.setItem('authUser', JSON.stringify(authUser));
           });
+      } else {
+        setAuthUser(null);
+        localStorage.removeItem('authUser')
       }
     };
 
@@ -28,7 +38,7 @@ const WithUserContextProvider = Component => {
       // listen for auth state changes - async
       // on authStateChanged starts a listener and returns an unsubscribe object
       const endListener = props.firebase.auth.onAuthStateChanged(onAuthChange);
-      
+
       // cleanup on unmount
       return () => endListener();
     }, []);

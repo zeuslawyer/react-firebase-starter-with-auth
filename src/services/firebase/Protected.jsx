@@ -7,6 +7,7 @@ import { withFirebase } from './index';
 /**
  * a HOC to wrap all protected routes.
  * Assumes that there is an existing Route component that renders the wrapped component so that Router props get passed in.
+ * @params {Component} -a component that is wrapped and rendered by <Route /> so that router props are passed to it.
  * @returns a functional component that takes in router props and other passed in props and renders protected route or redirects to signin page
  */
 const Protected = Component => {
