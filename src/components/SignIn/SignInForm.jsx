@@ -26,10 +26,10 @@ const _SignInForm = props => {
 
         // navigate to users home page if the sign in was rendered via a <Link> click.
         // REFERENCE:  https://tylermcginnis.com/react-router-pass-props-to-link/
-        if (props.location.state && props.location.state.navFromLink) {
+        if (props.location.state && props.location.state.viaSignInLink) {
           props.history.push(ROUTES.HOME);
         } else {
-          // the user has come to sign in page because of protected routes. Go back to the protected route.
+          // the user has come to sign in page because of protected routes. Go back to that protected route.
           props.history.goBack();
         }
       })

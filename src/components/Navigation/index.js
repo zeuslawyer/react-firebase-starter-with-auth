@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import { AuthUserContext } from '../../services/firebase';
 import SignOutButton from '../../components/SignOut/index';
+import ROLES from '../../constants/roles';
 
 const Navigation = () => {
   return (
@@ -30,13 +31,13 @@ const NavigationWithAuth = props => (
     <li>
       <Link to={ROUTES.ACCOUNT}>Account</Link>
     </li>
-    {['tCq25ZSluxQl48kcmVlyJ69si0d2'].some(
-      uid => uid === props.authUser.uid
-    ) && (
+
+    {props.authUser.role === ROLES.SITE_ADMIN && (
       <li>
         <Link to={ROUTES.ADMIN}>APP ADMIN</Link>
       </li>
     )}
+
     <li>
       <SignOutButton />
     </li>
@@ -50,7 +51,7 @@ const NavigationNonAuth = () => (
       <Link to={ROUTES.LANDING}>Landing</Link>
     </li>
     <li>
-      <Link to={{ pathname: ROUTES.SIGN_IN, state: { navFromLink: true } }}>
+      <Link to={{ pathname: ROUTES.SIGN_IN, state: { viaSignInLink: true } }}>
         Sign In
       </Link>
     </li>

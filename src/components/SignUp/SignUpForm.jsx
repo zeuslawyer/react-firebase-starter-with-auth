@@ -40,7 +40,7 @@ const _SignUpForm = props => {
     props.firebase
       ._createUserWithEmailAndPassword(emailValue, pwd1Value)
       .then(authUser => {
-        // save user to DB
+        // get ref to db node with id of the user.id & save user to node
         props.firebase
           ._user(authUser.user.uid)
           .set({ emailValue, role: ROLES.BASIC });

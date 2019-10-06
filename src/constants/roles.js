@@ -1,6 +1,6 @@
 const ROLES = {
-  ADMIN: 1,
+  SITE_ADMIN: 1,
   BASIC: 2
 };
 
-module.exports = ROLES
+module.exports = ROLES;

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { AuthUserContext } from './';
+import { AuthUserContext } from '.';
 import * as ROUTES from '../../constants/routes';
-import ROLES from '../../constants/roles';
+
 import { withFirebase } from './index';
 
 /**
@@ -14,32 +14,28 @@ const Protected = Component => {
     const context = useContext(AuthUserContext);
 
     useEffect(() => {
-      //  set up listener for firebase auth state.
+      //  set up listener for firebase auth state, and receive auth state...
       let endListener = props.firebase.auth.onAuthStateChanged(authUser => {
-        // (1) Start roles based redirecting
-        // if no authUser then route to sign in page
+        //  Redirection logic
+
+        // (1) if no authUser then route to sign in page
         !authUser && props.history.push(ROUTES.SIGN_IN);
 
+        // (2) if authUser, then
         if (authUser) {
-          // (2) fetch user  data from db
+          // fetch user  data from db
           props.firebase
             ._user(authUser.uid)
             .once('value')
             .then(snapshot => {
               const dbUser = snapshot.val();
-              // (3) merge the authUser and dbUser objects
+              // merge the authUser and dbUser objects
               authUser = {
                 uid: authUser.uid,
                 email: authUser.email,
                 ...dbUser
               };
 
-              // (3) apply roles based check
-              if (authUser.role === ROLES.ADMIN) {
-                return props.history.push(ROUTES.ADMIN);
-              } else {
-                props.history.push(ROUTES.HOME);
-              }
             });
         }
       });
