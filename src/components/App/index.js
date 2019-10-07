@@ -11,7 +11,7 @@ import Admin from '../AppAdmin';
 import PasswordForgetPage from '../PasswordForget';
 import * as ROUTES from '../../constants/routes';
 import { WithUserContextProvider } from '../../services/firebase';
-import ErrorPage from '../../components/ErrorPage';
+import ErrorPage from '../../components/EmailNotVerified';
 
 function App({ location }) {
   return (

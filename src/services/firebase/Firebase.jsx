@@ -31,7 +31,7 @@ export class FirebaseApi {
    * Use firebase to send an email verification. Users can access the app only after verification via email.
    */
   _sendEmailVerification = () => {
-    this.auth.currentUser.sendEmailVerification({
+    return this.auth.currentUser.sendEmailVerification({
       url: firebaseConfig.EMAIL_VERIFICATION_REDIRECT
     });
   };

@@ -48,7 +48,6 @@ const _SignUpForm = props => {
       })
       .then(() => {
         // send email verification if not in dev mode
-
         process.env.NODE_ENV !== envs.dev &&
           props.firebase._sendEmailVerification();
       })
@@ -106,10 +105,11 @@ const _SignUpForm = props => {
     </form>
   );
 };
-
 // wrap with react router, then inject firebaseApi into form
 const SignUpForm = compose(
   withRouter,
   withFirebase
 )(_SignUpForm);
 export default SignUpForm;
+
+
