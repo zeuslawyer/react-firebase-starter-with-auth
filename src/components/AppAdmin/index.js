@@ -29,7 +29,7 @@ function AppAdmin({ firebase, authUser, ...props }) {
 
   return (
     <>
-      <h3 style={{ textAlign: 'center' }}>Welcome {authUser.email}!</h3>
+      <h2 style={{ textAlign: 'center' }}>Welcome {authUser.email}!</h2>
       <p></p>
       <Switch>
         <Route
