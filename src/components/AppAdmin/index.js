@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
+
 import { Protected } from '../../services/firebase';
 import UserList from './UserList';
+import UserItem from './UserItem';
 import ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 
 function AppAdmin({ firebase, authUser, ...props }) {
-  const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
@@ -18,7 +20,6 @@ function AppAdmin({ firebase, authUser, ...props }) {
       users = Object.keys(users).map(key => ({ uid: key, ...users[key] })); // transform to array of objects
 
       setUsers(users);
-      setLoading(false);
     });
     //remove listener
     return () => {
@@ -30,8 +31,18 @@ function AppAdmin({ firebase, authUser, ...props }) {
     <>
       <h3 style={{ textAlign: 'center' }}>Welcome {authUser.email}!</h3>
       <p></p>
-      {loading && null}
-      {!loading && <UserList users={users} />}
+      <Switch>
+        <Route
+          exact
+          path={ROUTES.ADMIN}
+          render={props => <UserList {...props} users={users} />}
+        />
+        <Route
+          exact
+          path={ROUTES.ADMIN_USER_DETAIL}
+          render={props => <UserItem {...props} firebase={firebase} />}
+        />
+      </Switch>
     </>
   );
 }
