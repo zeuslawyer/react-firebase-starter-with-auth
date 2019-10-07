@@ -44,6 +44,10 @@ const _SignUpForm = props => {
         props.firebase
           ._user(authUser.user.uid)
           .set({ emailValue, role: ROLES.BASIC });
+      }).then(()=>{
+        // send email verification
+        props.firebase._sendEmailVerification();
+      }).then(()=>{
         // reset fields
         resetEmail();
         resetPwd2();

@@ -28,6 +28,15 @@ export class FirebaseApi {
   };
 
   /**
+   * Use firebase to send an email verification. Users can access the app only after verification via email.
+   */
+  _sendEmailVerification = () => {
+    this.auth.currentUser.sendEmailVerification({
+      url: firebaseConfig.EMAIL_VERIFICATION_REDIRECT
+    });
+  };
+
+  /**
    * sign in the user
    *
    * Note: The user's password is NOT the password used to access the user's email account. The email address serves as a unique identifier for the user, and the password is used to access the user's account in your Firebase project.
@@ -66,4 +75,14 @@ export class FirebaseApi {
 
   /** get ref to all users */
   _allUsers = () => this.db.ref('reduxFbReact_test_users');
+
+  _updateUserState = async(authUser) => {
+      // fetch user from database and merge with the auth user entity
+      return await this._user(authUser.uid)
+        .once('value')
+        .then(snapshot => {
+          const dbUser = snapshot.val();
+          return authUser = { uid: authUser.uid, email: authUser.email, ...dbUser };
+        });
+  };
 }

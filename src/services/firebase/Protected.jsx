@@ -13,33 +13,23 @@ import { withFirebase } from './index';
 const Protected = Component => {
   const ProtectedRoute = props => {
     const context = useContext(AuthUserContext);
+    const onAuthChange = authUser => {
+      //  Redirection logic
+      // (1) if no authUser then route to sign in page
+      !authUser && props.history.push(ROUTES.SIGN_IN);
 
+      // (2) if authUser, then...?  will show protected routee...
+      if (authUser) {
+        // fetch user  data from db
+        //NOTE:  not needed?
+        // props.firebase._updateUserState(authUser)
+      }
+    };
+
+      // need auth status to run the routing logic in onAuthChange
     useEffect(() => {
       //  set up listener for firebase auth state, and receive auth state...
-      let endListener = props.firebase.auth.onAuthStateChanged(authUser => {
-        //  Redirection logic
-
-        // (1) if no authUser then route to sign in page
-        !authUser && props.history.push(ROUTES.SIGN_IN);
-
-        // (2) if authUser, then
-        if (authUser) {
-          // fetch user  data from db
-          props.firebase
-            ._user(authUser.uid)
-            .once('value')
-            .then(snapshot => {
-              const dbUser = snapshot.val();
-              // merge the authUser and dbUser objects
-              authUser = {
-                uid: authUser.uid,
-                email: authUser.email,
-                ...dbUser
-              };
-
-            });
-        }
-      });
+      let endListener = props.firebase.auth.onAuthStateChanged(onAuthChange);
 
       // cleanup on unmount
       return () => {
