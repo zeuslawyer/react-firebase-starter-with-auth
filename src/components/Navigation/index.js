@@ -31,7 +31,8 @@ const NavigationWithAuth = props => (
     <li>
       <Link to={ROUTES.ACCOUNT}>Account</Link>
     </li>
-    {showProtectedLinks(props.authUser)}
+    {showSiteAdminLinks(props.authUser)}
+
     <li>
       <SignOutButton />
     </li>
@@ -54,12 +55,19 @@ const NavigationNonAuth = () => (
 
 export default Navigation;
 
-function showProtectedLinks(authUser) {
+
+/**
+ * 
+ * shows links that only the SITE ADMIN can see
+ */
+function showSiteAdminLinks(authUser) {
   if (authUser && authUser.role === ROLES.SITE_ADMIN) {
     return (
-      <li>
-        <Link to={ROUTES.ADMIN}>APP ADMIN</Link>
-      </li>
+      <>
+        <li>
+          <Link to={ROUTES.ADMIN}>APP ADMIN</Link>
+        </li>
+      </>
     );
   } else {
     return null;

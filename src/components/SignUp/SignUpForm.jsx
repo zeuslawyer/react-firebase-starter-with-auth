@@ -6,6 +6,7 @@ import { useFormInputHook } from '../hooks/formInputHook';
 import { withFirebase } from '../../services/firebase';
 import * as ROUTES from '../../constants/routes';
 import ROLES from '../../constants/roles';
+import envs from '../../constants/envs';
 
 // this component is NOT as per the guide.  Using hooks instead of stateful class component
 // REFERENCE:  https://rangle.io/blog/simplifying-controlled-inputs-with-hooks/
@@ -44,10 +45,14 @@ const _SignUpForm = props => {
         props.firebase
           ._user(authUser.user.uid)
           .set({ emailValue, role: ROLES.BASIC });
-      }).then(()=>{
-        // send email verification
-        props.firebase._sendEmailVerification();
-      }).then(()=>{
+      })
+      .then(() => {
+        // send email verification if not in dev mode
+
+        process.env.NODE_ENV !== envs.dev &&
+          props.firebase._sendEmailVerification();
+      })
+      .then(() => {
         // reset fields
         resetEmail();
         resetPwd2();

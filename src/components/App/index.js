@@ -11,6 +11,7 @@ import Admin from '../AppAdmin';
 import PasswordForgetPage from '../PasswordForget';
 import * as ROUTES from '../../constants/routes';
 import { WithUserContextProvider } from '../../services/firebase';
+import ErrorPage from '../../components/ErrorPage';
 
 function App({ location }) {
   return (
@@ -24,6 +25,10 @@ function App({ location }) {
       <Route path={ROUTES.ACCOUNT} component={Account} />
       <Route path={ROUTES.ADMIN} component={Admin} />
       <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+      <Route
+        path={ROUTES.EMAIL_NOT_VERIFIED}
+        render={props => <ErrorPage {...props} />}
+      />
     </Router>
   );
 }

@@ -21,18 +21,6 @@ const WithUserContextProvider = Component => {
           setAuthUser(user);
           localStorage.setItem('authUser', JSON.stringify(user));
         });
-        // // fetch user from database and merge with the auth user entity
-        // props.firebase
-        //   ._user(authUser.uid)
-        //   .once('value')
-        //   .then(snapshot => {
-        //     const dbUser = snapshot.val();
-        //     authUser = { uid: authUser.uid, email: authUser.email, ...dbUser };
-        //     setAuthUser(authUser);
-
-        //     // persist in local storage to avoid reload flicker.  To set expiry time, use cookie instead
-        //     localStorage.setItem('authUser', JSON.stringify(authUser));
-        //   });
       } else {
         setAuthUser(null);
         localStorage.removeItem('authUser');
