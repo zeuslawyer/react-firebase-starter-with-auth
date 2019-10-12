@@ -8,15 +8,18 @@ import ROLES from '../../constants/roles';
 
 const Navigation = () => {
   return (
-    <AuthUserContext.Consumer>
-      {authUser =>
-        authUser ? (
-          <NavigationWithAuth authUser={authUser} />
-        ) : (
-          <NavigationNonAuth />
-        )
-      }
-    </AuthUserContext.Consumer>
+    <>
+      <AuthUserContext.Consumer>
+        {authUser =>
+          authUser ? (
+            <NavigationWithAuth authUser={authUser} />
+          ) : (
+            <NavigationNonAuth />
+          )
+        }
+      </AuthUserContext.Consumer>
+      <hr />
+    </>
   );
 };
 

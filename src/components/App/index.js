@@ -18,7 +18,6 @@ function App({ location }) {
   return (
     <Router>
       <Navigation />
-      <hr />
       <Switch>
         <Route exact path={ROUTES.LANDING} component={Landing} />
         <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
