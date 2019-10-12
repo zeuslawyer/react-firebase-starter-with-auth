@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import ROLES from '../../constants/roles';
 
 function UserItem(props) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [passwordResetComplete, setPasswordResetComplete] = useState(false);
 
   useEffect(() => {
-    // if users navigated by clicking on user list link, load state from link state
+    // if users navigated by clicking on a <UserList /> Link, receive state from that Link
     if (props.location.state) {
       setUser(props.location.state.user);
       setLoading(false);
@@ -25,7 +27,28 @@ function UserItem(props) {
   return loading ? null : (
     <>
       <h2>UserId: {props.match.params.id}</h2>
-      <p>{user.emailValue}</p>
+      <p>{user.email}</p>
+      <p>
+        <strong>User type: </strong>
+        {Object.entries(ROLES).find(pair => pair[1] === user.role)[0] || null}
+      </p>
+      <button
+        type='button'
+        disabled={passwordResetComplete}
+        onClick={() => {
+          props.firebase
+            ._resetPassword(user.email)
+            .then(r => {
+              console.log(r);
+              setPasswordResetComplete(true);
+            })
+            .catch(e => {
+              throw new Error(e);
+            });
+        }}
+      >
+        {passwordResetComplete ? 'Done' : 'Send Password Reset Email'}
+      </button>
     </>
   );
 }

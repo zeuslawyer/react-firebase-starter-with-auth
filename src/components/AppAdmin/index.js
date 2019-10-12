@@ -34,19 +34,17 @@ function AppAdmin({ firebase, authUser, ...props }) {
       <Switch>
         <Route
           exact
-          path={ROUTES.ADMIN_USER}
-          render={props => <UserList {...props} users={users} />}
-        />
-        <Route
-          exact
           path={ROUTES.ADMIN_USER_DETAIL}
           render={props => <UserItem {...props} firebase={firebase} />}
         />
-       
+        <Route
+          exact
+          path={ROUTES.ADMIN_USER}
+          render={props => <UserList {...props} users={users} />}
+        />
       </Switch>
     </>
   );
 }
-
 
 export default Protected(AppAdmin);

@@ -17,7 +17,7 @@ const _SignUpForm = props => {
 
   // destructure object and rename the property names from custom formHook
   const {
-    value: emailValue,
+    value: email,
     setValue: setEmailValue,
     reset: resetEmail
   } = useFormInputHook();
@@ -35,16 +35,16 @@ const _SignUpForm = props => {
   // on submit handler
   const onSubmit = e => {
     e.preventDefault();
-    // console.log(`Submitting: ${emailValue}, ${pwd1Value}, ${pwd2Value}`);
+    // console.log(`Submitting: ${email}, ${pwd1Value}, ${pwd2Value}`);
 
     // create firebase auth user
     props.firebase
-      ._createUserWithEmailAndPassword(emailValue, pwd1Value)
+      ._createUserWithEmailAndPassword(email, pwd1Value)
       .then(authUser => {
         // get ref to db node with id of the user.id & save user to node
         props.firebase
           ._user(authUser.user.uid)
-          .set({ emailValue, role: ROLES.BASIC });
+          .set({ email, role: ROLES.BASIC });
       })
       .then(() => {
         // send email verification if not in dev mode
@@ -75,7 +75,7 @@ const _SignUpForm = props => {
     <form onSubmit={onSubmit}>
       <input
         name='email'
-        value={emailValue}
+        value={email}
         onChange={e => setEmailValue(e.target.value)}
         type='email'
         placeholder='email'
@@ -111,5 +111,3 @@ const SignUpForm = compose(
   withFirebase
 )(_SignUpForm);
 export default SignUpForm;
-
-

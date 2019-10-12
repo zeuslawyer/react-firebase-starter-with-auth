@@ -36,7 +36,7 @@ function UserList(props) {
                           state: { user }
                         }}
                       >
-                        {user.emailValue}
+                        {user.email}
                       </Link>
                     </td>
                   </tr>
