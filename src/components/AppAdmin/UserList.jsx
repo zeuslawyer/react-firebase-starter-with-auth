@@ -32,7 +32,7 @@ function UserList(props) {
                     <td style={contentStyle}>
                       <Link
                         to={{
-                          pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                          pathname: `${ROUTES.ADMIN_USER}/${user.uid}`,
                           state: { user }
                         }}
                       >

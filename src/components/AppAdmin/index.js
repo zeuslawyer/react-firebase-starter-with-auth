@@ -21,7 +21,7 @@ function AppAdmin({ firebase, authUser, ...props }) {
 
       setUsers(users);
     });
-    //remove listener
+    // cleanup -remove listener
     return () => {
       firebase._allUsers().off();
     };
@@ -34,7 +34,7 @@ function AppAdmin({ firebase, authUser, ...props }) {
       <Switch>
         <Route
           exact
-          path={ROUTES.ADMIN}
+          path={ROUTES.ADMIN_USER}
           render={props => <UserList {...props} users={users} />}
         />
         <Route
@@ -42,9 +42,11 @@ function AppAdmin({ firebase, authUser, ...props }) {
           path={ROUTES.ADMIN_USER_DETAIL}
           render={props => <UserItem {...props} firebase={firebase} />}
         />
+       
       </Switch>
     </>
   );
 }
+
 
 export default Protected(AppAdmin);

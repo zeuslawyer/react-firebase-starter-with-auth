@@ -55,9 +55,8 @@ const NavigationNonAuth = () => (
 
 export default Navigation;
 
-
 /**
- * 
+ *
  * shows links that only the SITE ADMIN can see
  */
 function showSiteAdminLinks(authUser) {
@@ -65,7 +64,7 @@ function showSiteAdminLinks(authUser) {
     return (
       <>
         <li>
-          <Link to={ROUTES.ADMIN}>APP ADMIN</Link>
+          <Link to={ROUTES.ADMIN_USER}>APP ADMIN</Link>
         </li>
       </>
     );
