@@ -91,4 +91,12 @@ export class FirebaseApi {
         });
       });
   };
+
+  // ============+ MESSAGING API =============
+  /**
+   * get a reference to a specific message in the db
+   */
+  _message = uid => this.db.ref(`reduxFbReact_test_messages/${uid}`);
+
+  _allMessages = () => this.db.ref(`reduxFbReact_test_messages`);
 }

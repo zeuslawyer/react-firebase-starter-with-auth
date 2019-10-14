@@ -1,9 +1,10 @@
 import React from 'react';
+
+import Messages from '../../components/Messages';
 import { Protected } from '../../services/firebase';
 import envs from '../../constants/envs';
 
 function Home({ authUser, ...props }) {
-  console.log(process.env.NODE_ENV !== envs.dev);
   return (
     <div>
       <h3>HOME PAGE</h3>
@@ -14,6 +15,7 @@ function Home({ authUser, ...props }) {
           AS THIS IS DEV MODE NO FIREBASE EMAIL VERIFICATION SENT
         </p>
       )}
+      <Messages />
     </div>
   );
 }

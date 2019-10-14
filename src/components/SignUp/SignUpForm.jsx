@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 
-import { useFormInputHook } from '../hooks/formInputHook';
+import { useFormInputHook } from '../../hooks/formInputHook';
 import { withFirebase } from '../../services/firebase';
 import * as ROUTES from '../../constants/routes';
 import ROLES from '../../constants/roles';
