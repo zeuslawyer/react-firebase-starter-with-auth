@@ -24,9 +24,8 @@ const Protected = Component => {
       if (authUser) {
         // if email not verified yet show the error page (only if not in dev mode)
         process.env.NODE_ENV !== envs.dev &&
-        !authUser.emailVerified &&
+          !authUser.emailVerified &&
           props.history.push(ROUTES.EMAIL_NOT_VERIFIED);
-
 
         // fetch user  data from db and create a composite user object
         // NOTE:  not needed for protected route.  used mainly in withUserHOC
@@ -48,7 +47,9 @@ const Protected = Component => {
     }, []);
 
     // return home page, or null if authed user not registered in <App /> context provider
-    return authUserContext ? <Component {...props} authUser={authUserContext} /> : null;
+    return authUserContext ? (
+      <Component {...props} authUser={authUserContext} />
+    ) : null;
   };
 
   // withFirebase needed to inject firebase.auth into this component

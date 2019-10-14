@@ -3,6 +3,7 @@ import React from 'react';
 import withFirebase from '../../services/firebase/FirebaseContextHOC';
 import { useDataFetcher } from '../../hooks/useDataFetcher';
 import { useFormInputHook } from '../../hooks/formInputHook';
+import { Protected } from '../../services/firebase';
 
 function Messages(props) {
   const { loading, setLoading, data, setData } = useDataFetcher(
@@ -17,15 +18,15 @@ function Messages(props) {
     reset: resetMessage
   } = useFormInputHook();
 
-  console.log(data, message);
+  console.log(data);
 
   const handleSubmit = e => {
     e.preventDefault();
     props.firebase
       ._allMessages()
       .push({ text: message })
-      .then(() => console.log('Done'));
-    resetMessage();
+      .then(() => resetMessage())
+      .catch(e => console.error(e));
   };
 
   return (
@@ -58,8 +59,10 @@ function MessageList(props) {
 
 const MessageItem = props => (
   <li>
-    <strong>{props.message.userId}</strong>: {props.message.text}
+    <strong>{props.message.userId || 'Unidentified User'}</strong>:{' '}
+    {props.message.text}
   </li>
 );
 
-export default withFirebase(Messages);
+// export default withFirebase(Messages);
+export default Protected(Messages);

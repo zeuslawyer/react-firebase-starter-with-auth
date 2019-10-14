@@ -15,7 +15,7 @@ function Home({ authUser, ...props }) {
           AS THIS IS DEV MODE NO FIREBASE EMAIL VERIFICATION SENT
         </p>
       )}
-      <Messages />
+      <Messages user={authUser} />
     </div>
   );
 }
