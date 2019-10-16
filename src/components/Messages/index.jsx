@@ -64,5 +64,4 @@ const MessageItem = props => (
   </li>
 );
 
-// export default withFirebase(Messages);
-export default Protected(Messages);
+export default withFirebase(Messages);
