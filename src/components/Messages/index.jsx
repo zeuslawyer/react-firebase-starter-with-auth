@@ -3,7 +3,6 @@ import React from 'react';
 import withFirebase from '../../services/firebase/FirebaseContextHOC';
 import { useDataFetcher } from '../../hooks/useDataFetcher';
 import { useFormInputHook } from '../../hooks/formInputHook';
-import { Protected } from '../../services/firebase';
 
 function Messages(props) {
   const { loading, setLoading, data, setData } = useDataFetcher(
@@ -15,23 +14,21 @@ function Messages(props) {
     value: message,
     setValue: setMessage,
     onChange: onMessageChange,
-    reset: resetMessage
+    reset: resetMessageInput
   } = useFormInputHook();
-
-  console.log(data);
 
   const handleSubmit = e => {
     e.preventDefault();
     props.firebase
       ._allMessages()
-      .push({ text: message })
-      .then(() => resetMessage())
+      .push({ text: message, userId: props.user.uid })
+      .then(() => resetMessageInput())
       .catch(e => console.error(e));
   };
 
   return (
     <>
-      {loading && 'Loading...'}
+      {loading && 'Loading messages...'}
       {data && <MessageList messages={data} />}
       <form onSubmit={handleSubmit}>
         <input type='text' value={message} onChange={onMessageChange}></input>
@@ -46,8 +43,8 @@ function MessageList(props) {
     <>
       {props.messages ? (
         <ul>
-          {props.messages.map(msg => (
-            <MessageItem key={msg.uid} message={msg} />
+          {props.messages.map(message => (
+            <MessageItem key={message.uid} message={message} />
           ))}
         </ul>
       ) : (
