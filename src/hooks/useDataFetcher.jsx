@@ -13,7 +13,7 @@ export const useDataFetcher = (firebaseApi) => {
     firebaseApi().on('value', snapshot => {
       let retrieved = snapshot.val();
       if (retrieved) {
-        //transform data object into an array of data objects with the message uid added as property
+        //transform data object into an array of data objects with the message id added as property
         retrieved = Object.keys(retrieved).map(id => ({
           ...retrieved[id],
           id

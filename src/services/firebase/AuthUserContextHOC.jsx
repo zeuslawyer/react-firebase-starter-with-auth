@@ -36,7 +36,7 @@ const WithUserContextProvider = Component => {
 
       // cleanup on unmount
       return () => endListener();
-    }, [props.firebase]); 
+    }, [props.firebase]);
 
     return (
       <AuthUserContext.Provider value={authUser}>

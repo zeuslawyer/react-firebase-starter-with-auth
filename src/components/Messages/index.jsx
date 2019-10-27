@@ -104,12 +104,6 @@ const MessageItem = ({ message, removeMessage, updateMessage, user }) => {
     setEditMode(false);
   };
 
-  console.log(
-    'look here: ',
-    message.userId,
-    user.uid,
-    message.userId === user.uid
-  );
   return (
     <li>
       {!editMode ? (

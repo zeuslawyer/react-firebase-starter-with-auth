@@ -70,14 +70,17 @@ export class FirebaseApi {
 
   // **** USER API *****
 
-  /** get ref to singe user by uid
-   * @param {string} uid - string uid
+  /** get ref to single user by id
+   * @param {string} id - string id
    */
-  _user = uid => this.db.ref(`reduxFbReact_test_users/${uid}`);
+  _user = id => this.db.ref(`reduxFbReact_test_users/${id}`);
 
   /** get ref to all users */
   _allUsers = () => this.db.ref('reduxFbReact_test_users');
 
+  /**
+   * @param {string} authUser - the firebase auth user object for the current authed user in the app
+   */
   _updateUserState = async authUser => {
     // fetch user from database and merge with the auth user entity
     return await this._user(authUser.uid)

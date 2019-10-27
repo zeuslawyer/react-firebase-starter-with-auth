@@ -41,7 +41,7 @@ function UserItem(props) {
           props.firebase
             ._resetPassword(user.email)
             .then(r => {
-              console.log(r);
+              // console.log(r);
               setPasswordResetComplete(true);
             })
             .catch(e => {

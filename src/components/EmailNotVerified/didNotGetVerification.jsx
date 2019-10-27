@@ -9,7 +9,6 @@ export function DidNotGetVerification({ firebase, history }) {
       <Link
         to={'#'}
         onClick={() => {
-          console.log('CLICKED');
           firebase
             ._sendEmailVerification()
             .then(() => history.push(ROUTES.HOME));
