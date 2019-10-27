@@ -11,7 +11,7 @@ function UserList(props) {
   return (
     <>
       {!props.users ? (
-        'LOADING...'
+        'LOADING...(or Nill users)'
       ) : (
         <>
           <h4 style={{ textAlign: 'center' }}>

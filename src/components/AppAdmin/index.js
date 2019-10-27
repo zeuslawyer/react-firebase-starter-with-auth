@@ -6,28 +6,16 @@ import UserList from './UserList';
 import UserItem from './UserItem';
 import ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
+import { useDataFetcher } from '../../hooks/useDataFetcher';
 
 function AppAdmin({ firebase, authUser, ...props }) {
-  const [users, setUsers] = useState(null);
+  const { data: users } = useDataFetcher(firebase._allUsers);
 
   useEffect(() => {
-    console.log('deps test app admin')
     // if user is not SITE ADMIN, navigate away
+    console.log('deps test in app admin');
     authUser.role !== ROLES.SITE_ADMIN && props.history.push(ROUTES.HOME);
-
-    // attach listener to all users node in database
-    firebase._allUsers().on('value', snapshot => {
-      let users = snapshot.val(); // is an object
-      users = Object.keys(users).map(key => ({ id: key, ...users[key] })); // transform to array of objects
-
-      setUsers(users);
-    });
-
-    // cleanup -remove listener
-    return () => {
-      firebase._allUsers().off();
-    };
-  }, [authUser, firebase, props.history]); 
+  }, [authUser.role, props.history]);
 
   return (
     <>
