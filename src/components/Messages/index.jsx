@@ -51,6 +51,7 @@ function Messages({ firebase, user }) {
           messages={data}
           removeMessage={removeMessage}
           updateMessage={updateMessage}
+          user={user}
         />
       ) : (
         <p>No messages yet.</p>
@@ -63,7 +64,7 @@ function Messages({ firebase, user }) {
   );
 }
 
-function MessageList({ messages, removeMessage, updateMessage }) {
+function MessageList({ messages, removeMessage, updateMessage, user }) {
   return (
     <>
       {messages ? (
@@ -74,6 +75,7 @@ function MessageList({ messages, removeMessage, updateMessage }) {
               message={message}
               removeMessage={removeMessage}
               updateMessage={updateMessage}
+              user={user}
             />
           ))}
         </ul>
@@ -82,7 +84,7 @@ function MessageList({ messages, removeMessage, updateMessage }) {
   );
 }
 
-const MessageItem = ({ message, removeMessage, updateMessage }) => {
+const MessageItem = ({ message, removeMessage, updateMessage, user }) => {
   const [editMode, setEditMode] = React.useState(false);
 
   // destructure form input hook exported vars and rename for clarity
@@ -102,6 +104,12 @@ const MessageItem = ({ message, removeMessage, updateMessage }) => {
     setEditMode(false);
   };
 
+  console.log(
+    'look here: ',
+    message.userId,
+    user.uid,
+    message.userId === user.uid
+  );
   return (
     <li>
       {!editMode ? (
@@ -115,12 +123,17 @@ const MessageItem = ({ message, removeMessage, updateMessage }) => {
               </small>
             </span>
           )}
-          <button type='button' onClick={() => removeMessage(message.id)}>
-            X
-          </button>
-          <button onClick={onToggleEditMode}>Update</button>
+          {message.userId === user.uid ? (
+            <>
+              <button type='button' onClick={() => removeMessage(message.id)}>
+                X
+              </button>
+              <button onClick={onToggleEditMode}>Update</button>
+            </>
+          ) : null}
         </span>
       ) : (
+        // edit mode
         <span>
           <strong>{message.userId || 'Unidentified User'}</strong>:{' '}
           <input
