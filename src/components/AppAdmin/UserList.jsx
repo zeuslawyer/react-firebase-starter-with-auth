@@ -20,19 +20,19 @@ function UserList(props) {
           <table style={{ width: '100%' }}>
             <thead>
               <tr>
-                <th style={contentStyle}>UID</th>
+                <th style={contentStyle}>ID</th>
                 <th style={contentStyle}>Email</th>
               </tr>
             </thead>
             <tbody>
               {props.users &&
                 props.users.map(user => (
-                  <tr key={user.uid}>
-                    <td style={contentStyle}>{user.uid}</td>
+                  <tr key={user.id}>
+                    <td style={contentStyle}>{user.id}</td>
                     <td style={contentStyle}>
                       <Link
                         to={{
-                          pathname: `${ROUTES.ADMIN_USER}/${user.uid}`,
+                          pathname: `${ROUTES.ADMIN_USER}/${user.id}`,
                           state: { user }
                         }}
                       >

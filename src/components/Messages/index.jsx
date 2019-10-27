@@ -16,7 +16,7 @@ function Messages({ firebase, user }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    
+
     firebase
       ._allMessages()
       .push({
@@ -31,21 +31,13 @@ function Messages({ firebase, user }) {
     firebase._message(id).remove();
   };
 
-  const updateMessage = (messageData, updatedMessageText) => {
-    console.log('before:', messageData);
+  const updateMessage = (currentMsgData, updatedMessageText) => {
+    const { id, ...restOfCurrentMsgData } = currentMsgData;
 
-    const { id, ...restOfMessageData } = messageData;
-    console.log('after: for id ', id, {
-      ...restOfMessageData,
+    firebase._message(id).set({
+      ...restOfCurrentMsgData,
       text: updatedMessageText
     });
-    firebase
-      ._message(id)
-      .set({
-        text: updatedMessageText,
-        ...restOfMessageData
-      })
-      .then(res => console.log(res));
   };
 
   return (
@@ -95,7 +87,6 @@ const MessageItem = ({ message, removeMessage, updateMessage }) => {
   const {
     value: updatedMessage,
     onChange: onChangeMessageText,
-    reset
   } = useFormInputHook(message.text); // initial value is the message in its current state
 
   // toggle editable state for message

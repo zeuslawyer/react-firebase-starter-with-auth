@@ -96,7 +96,8 @@ export class FirebaseApi {
   /**
    * get a reference to a specific message in the db
    */
-  _message = uid => this.db.ref(`reduxFbReact_test_messages/${uid}`);
+  _message = id => this.db.ref(`reduxFbReact_test_messages/${id}`);
+
 
   _allMessages = () => this.db.ref(`reduxFbReact_test_messages`);
 }

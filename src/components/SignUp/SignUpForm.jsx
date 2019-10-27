@@ -43,7 +43,7 @@ const _SignUpForm = props => {
       .then(authUser => {
         // get ref to db node with id of the user.id & save user to node
         props.firebase
-          ._user(authUser.user.uid)
+          ._user(authUser.user.id)
           .set({ email, role: ROLES.BASIC });
       })
       .then(() => {
