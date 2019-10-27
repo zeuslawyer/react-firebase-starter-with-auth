@@ -21,7 +21,8 @@ function Messages({ firebase, user }) {
       ._allMessages()
       .push({
         text: input,
-        userId: user.uid
+        userId: user.uid,
+        createdAt: firebase.serverValue.TIMESTAMP
       })
       .then(() => resetMessageInput())
       .catch(e => console.error(e));
@@ -36,7 +37,8 @@ function Messages({ firebase, user }) {
 
     firebase._message(id).set({
       ...restOfCurrentMsgData,
-      text: updatedMessageText
+      text: updatedMessageText,
+      updatedAt: firebase.serverValue.TIMESTAMP
     });
   };
 
@@ -86,7 +88,7 @@ const MessageItem = ({ message, removeMessage, updateMessage }) => {
   // destructure form input hook exported vars and rename for clarity
   const {
     value: updatedMessage,
-    onChange: onChangeMessageText,
+    onChange: onChangeMessageText
   } = useFormInputHook(message.text); // initial value is the message in its current state
 
   // toggle editable state for message
@@ -106,6 +108,13 @@ const MessageItem = ({ message, removeMessage, updateMessage }) => {
         <span>
           <strong>{message.userId || 'Unidentified User'}</strong>:
           {message.text}
+          {message.updatedAt && (
+            <span>
+              <small>
+                <i>(Edited)</i>
+              </small>
+            </span>
+          )}
           <button type='button' onClick={() => removeMessage(message.id)}>
             X
           </button>

@@ -12,6 +12,8 @@ export class FirebaseApi {
     app.initializeApp(firebaseConfig);
     this.auth = app.auth();
     this.db = app.database();
+    this.emailAuthProvider = app.auth.EmailAuthProvider;
+    this.serverValue = app.database.ServerValue;
   }
 
   // **** AUTH API *****
@@ -97,7 +99,6 @@ export class FirebaseApi {
    * get a reference to a specific message in the db
    */
   _message = id => this.db.ref(`reduxFbReact_test_messages/${id}`);
-
 
   _allMessages = () => this.db.ref(`reduxFbReact_test_messages`);
 }
