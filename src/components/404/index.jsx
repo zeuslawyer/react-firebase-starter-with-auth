@@ -10,7 +10,7 @@ function PageNotFound() {
       <h3>
         Oops. There're nothing here. Head <Link to={ROUTES.HOME}>Home</Link>
       </h3>
-      <img src={ErrorPic} />
+      <img alt="error" src={ErrorPic} />
     </div>
   );
 }

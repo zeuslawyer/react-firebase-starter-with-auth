@@ -7,12 +7,14 @@ function UserItem(props) {
   const [passwordResetComplete, setPasswordResetComplete] = useState(false);
 
   useEffect(() => {
-    // if users navigated by clicking on a <UserList /> Link, receive state from that Link
+    console.log('deps test userItem')
+
+    // if users navigated to view user list by clicking on a <UserList /> Link, receive state from that Link
     if (props.location.state) {
       setUser(props.location.state.user);
       setLoading(false);
     } else {
-      console.log('loading from database...');
+      console.info('loading from database...');
       props.firebase._user(props.match.params.id).on('value', snapshot => {
         setUser(snapshot.val());
         setLoading(false);
@@ -22,7 +24,7 @@ function UserItem(props) {
     return () => {
       props.firebase._user(props.match.params.id).off();
     };
-  }, []);
+  }, [props.firebase, props.location.state, props.match.params]);
 
   return loading ? null : (
     <>

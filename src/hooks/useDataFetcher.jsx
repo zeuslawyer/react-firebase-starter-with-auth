@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 
 /**
  * reusable hook to pull data from database, and update loading state
- * @param {function} node - the firebase API method that returns the ref from where data is being retrieved
+ * @param {function} firebaseApi - the firebase API method relating to the node that returns the ref from where data is being retrieved
  */
-export const useDataFetcher = node => {
+export const useDataFetcher = firebaseApi => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    node().on('value', snapshot => {
+    firebaseApi().on('value', snapshot => {
       let retrieved = snapshot.val();
       if (retrieved) {
-        //transform data object
+        //transform data object into an array of data objects with the message uid added as property 
         retrieved = Object.keys(retrieved).map(key => ({
           ...retrieved[key],
           uid: key
@@ -22,11 +22,11 @@ export const useDataFetcher = node => {
       setData(retrieved);
       setLoading(false);
     });
+    // cleanup
     return () => {
-      // cleanup
-      node().off();
+      firebaseApi().off();
     };
-  }, []);
+  }, [firebaseApi]);
 
   return {
     loading,

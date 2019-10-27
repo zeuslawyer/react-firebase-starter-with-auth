@@ -15,27 +15,28 @@ const WithUserContextProvider = Component => {
       JSON.parse(localStorage.getItem('authUser'))
     ); // null if signed out.  if signed in, prevents reload flicker
 
-    const onAuthChange = authUser => {
-      if (authUser) {
-        props.firebase._updateUserState(authUser).then(user => {
-          setAuthUser(user);
-          localStorage.setItem('authUser', JSON.stringify(user));
-        });
-      } else {
-        setAuthUser(null);
-        localStorage.removeItem('authUser');
-      }
-    };
-
     // REFERENCE:  https://dev.to/bmcmahen/using-firebase-with-react-hooks-21ap
     useEffect(() => {
+      console.log('deps test authUserContextHOC');
+
       // listen for auth state changes - async
+      const onAuthChange = authUser => {
+        if (authUser) {
+          props.firebase._updateUserState(authUser).then(user => {
+            setAuthUser(user);
+            localStorage.setItem('authUser', JSON.stringify(user));
+          });
+        } else {
+          setAuthUser(null);
+          localStorage.removeItem('authUser');
+        }
+      };
       // on authStateChanged starts a listener and returns an unsubscribe object
       const endListener = props.firebase.auth.onAuthStateChanged(onAuthChange);
 
       // cleanup on unmount
       return () => endListener();
-    }, []);
+    }, [props.firebase]);
 
     return (
       <AuthUserContext.Provider value={authUser}>

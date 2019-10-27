@@ -11,6 +11,7 @@ function AppAdmin({ firebase, authUser, ...props }) {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
+    console.log('deps test app admin')
     // if user is not SITE ADMIN, navigate away
     authUser.role !== ROLES.SITE_ADMIN && props.history.push(ROUTES.HOME);
 
@@ -21,11 +22,12 @@ function AppAdmin({ firebase, authUser, ...props }) {
 
       setUsers(users);
     });
+
     // cleanup -remove listener
     return () => {
       firebase._allUsers().off();
     };
-  }, []);
+  }, [authUser, firebase, props.history]);
 
   return (
     <>

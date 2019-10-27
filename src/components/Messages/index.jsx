@@ -4,32 +4,38 @@ import withFirebase from '../../services/firebase/FirebaseContextHOC';
 import { useDataFetcher } from '../../hooks/useDataFetcher';
 import { useFormInputHook } from '../../hooks/formInputHook';
 
-function Messages(props) {
-  const { loading, setLoading, data, setData } = useDataFetcher(
-    props.firebase._allMessages
-  );
+function Messages({ firebase, user }) {
+  const { loading, data } = useDataFetcher(firebase._allMessages);
 
-  // destructure and rename for clarity
+  // destructure form input hook exported vars and rename for clarity
   const {
     value: message,
-    setValue: setMessage,
     onChange: onMessageChange,
     reset: resetMessageInput
   } = useFormInputHook();
 
   const handleSubmit = e => {
     e.preventDefault();
-    props.firebase
+    firebase
       ._allMessages()
-      .push({ text: message, userId: props.user.uid })
+      .push({ text: message, userId: user.uid })
       .then(() => resetMessageInput())
       .catch(e => console.error(e));
   };
 
+  const removeMessage = uid => {
+    firebase._message(uid).remove();
+  };
+
   return (
     <>
-      {loading && 'Loading messages...'}
-      {data && <MessageList messages={data} />}
+      {loading ? (
+        'Loading messages...'
+      ) : data ? (
+        <MessageList messages={data} removeMessage={removeMessage} />
+      ) : (
+        <p>No messages yet.</p>
+      )}
       <form onSubmit={handleSubmit}>
         <input type='text' value={message} onChange={onMessageChange}></input>
         <input type='submit' value={'Send Message'}></input>
@@ -38,26 +44,30 @@ function Messages(props) {
   );
 }
 
-function MessageList(props) {
+function MessageList({ messages, removeMessage }) {
   return (
     <>
-      {props.messages ? (
+      {messages ? (
         <ul>
-          {props.messages.map(message => (
-            <MessageItem key={message.uid} message={message} />
+          {messages.map(message => (
+            <MessageItem
+              key={message.uid}
+              message={message}
+              removeMessage={removeMessage}
+            />
           ))}
         </ul>
-      ) : (
-        <p>No messages yet.</p>
-      )}
+      ) : null}
     </>
   );
 }
 
-const MessageItem = props => (
+const MessageItem = ({ message, removeMessage }) => (
   <li>
-    <strong>{props.message.userId || 'Unidentified User'}</strong>:{' '}
-    {props.message.text}
+    <strong>{message.userId || 'Unidentified User'}</strong>:{message.text}
+    <button type='button' onClick={() => removeMessage(message.uid)}>
+      X
+    </button>
   </li>
 );
 
