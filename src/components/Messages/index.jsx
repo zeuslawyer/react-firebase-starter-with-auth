@@ -9,22 +9,43 @@ function Messages({ firebase, user }) {
 
   // destructure form input hook exported vars and rename for clarity
   const {
-    value: message,
+    value: input,
     onChange: onMessageChange,
     reset: resetMessageInput
   } = useFormInputHook();
 
   const handleSubmit = e => {
     e.preventDefault();
+    
     firebase
       ._allMessages()
-      .push({ text: message, userId: user.uid })
+      .push({
+        text: input,
+        userId: user.uid
+      })
       .then(() => resetMessageInput())
       .catch(e => console.error(e));
   };
 
-  const removeMessage = uid => {
-    firebase._message(uid).remove();
+  const removeMessage = id => {
+    firebase._message(id).remove();
+  };
+
+  const updateMessage = (messageData, updatedMessageText) => {
+    console.log('before:', messageData);
+
+    const { id, ...restOfMessageData } = messageData;
+    console.log('after: for id ', id, {
+      ...restOfMessageData,
+      text: updatedMessageText
+    });
+    firebase
+      ._message(id)
+      .set({
+        text: updatedMessageText,
+        ...restOfMessageData
+      })
+      .then(res => console.log(res));
   };
 
   return (
@@ -32,28 +53,33 @@ function Messages({ firebase, user }) {
       {loading ? (
         'Loading messages...'
       ) : data ? (
-        <MessageList messages={data} removeMessage={removeMessage} />
+        <MessageList
+          messages={data}
+          removeMessage={removeMessage}
+          updateMessage={updateMessage}
+        />
       ) : (
         <p>No messages yet.</p>
       )}
       <form onSubmit={handleSubmit}>
-        <input type='text' value={message} onChange={onMessageChange}></input>
+        <input type='text' value={input} onChange={onMessageChange}></input>
         <input type='submit' value={'Send Message'}></input>
       </form>
     </>
   );
 }
 
-function MessageList({ messages, removeMessage }) {
+function MessageList({ messages, removeMessage, updateMessage }) {
   return (
     <>
       {messages ? (
         <ul>
           {messages.map(message => (
             <MessageItem
-              key={message.uid}
+              key={message.id}
               message={message}
               removeMessage={removeMessage}
+              updateMessage={updateMessage}
             />
           ))}
         </ul>
@@ -62,13 +88,54 @@ function MessageList({ messages, removeMessage }) {
   );
 }
 
-const MessageItem = ({ message, removeMessage }) => (
-  <li>
-    <strong>{message.userId || 'Unidentified User'}</strong>:{message.text}
-    <button type='button' onClick={() => removeMessage(message.uid)}>
-      X
-    </button>
-  </li>
-);
+const MessageItem = ({ message, removeMessage, updateMessage }) => {
+  const [editMode, setEditMode] = React.useState(false);
+
+  // destructure form input hook exported vars and rename for clarity
+  const {
+    value: updatedMessage,
+    onChange: onChangeMessageText,
+    reset
+  } = useFormInputHook(message.text); // initial value is the message in its current state
+
+  // toggle editable state for message
+  const onToggleEditMode = () => {
+    setEditMode(!editMode);
+  };
+
+  // save edited message
+  const submitUpdatedMessage = () => {
+    updateMessage(message, updatedMessage);
+    setEditMode(false);
+  };
+
+  return (
+    <li>
+      {!editMode ? (
+        <span>
+          <strong>{message.userId || 'Unidentified User'}</strong>:
+          {message.text}
+          <button type='button' onClick={() => removeMessage(message.id)}>
+            X
+          </button>
+          <button onClick={onToggleEditMode}>Update</button>
+        </span>
+      ) : (
+        <span>
+          <strong>{message.userId || 'Unidentified User'}</strong>:{' '}
+          <input
+            type='text'
+            value={updatedMessage}
+            onChange={onChangeMessageText}
+          />
+          <button type='button' onClick={submitUpdatedMessage}>
+            Update
+          </button>
+          <button onClick={onToggleEditMode}>Cancel Update</button>
+        </span>
+      )}
+    </li>
+  );
+};
 
 export default withFirebase(Messages);

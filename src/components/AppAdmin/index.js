@@ -27,7 +27,7 @@ function AppAdmin({ firebase, authUser, ...props }) {
     return () => {
       firebase._allUsers().off();
     };
-  }, [authUser, firebase, props.history]);
+  }, [authUser, firebase, props.history]); 
 
   return (
     <>
