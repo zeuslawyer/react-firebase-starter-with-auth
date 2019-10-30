@@ -6,7 +6,7 @@ import { useDataFetcher } from '../../hooks/useDataFetcher';
 import { useFormInputHook } from '../../hooks/formInputHook';
 
 function Messages({ firebase, user }) {
-  const { loading, data } = useDataFetcher(firebase._allMessages);
+  const { loading, data } = useDataFetcher(firebase._allMessages, 10);
 
   // destructure form input hook exported vars and rename for clarity
   const {
@@ -105,7 +105,7 @@ const MessageItem = ({ message, removeMessage, updateMessage, user }) => {
     setEditMode(false);
   };
 
-  console.log('hmm', user.role === ROLES.ADMIN_USER )
+  console.log('hmm', user.role === ROLES.ADMIN_USER);
   return (
     <li>
       {!editMode ? (
