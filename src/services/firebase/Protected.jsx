@@ -19,7 +19,7 @@ const Protected = Component => {
     useEffect(() => {
       console.log('deps test in protected');
       //  set up listener for firebase auth state, and receive auth state...
-      const onAuthChange = authUser => {
+      let endListener = props.firebase.auth.onAuthStateChanged(authUser => {
         //  Redirection logic. if authUser exists then user is signed in..
         // (1) if no authUser then route to sign in page
         !authUser && props.history.push(ROUTES.SIGN_IN);
@@ -31,20 +31,15 @@ const Protected = Component => {
             !authUser.emailVerified &&
             props.history.push(ROUTES.EMAIL_NOT_VERIFIED);
 
-          // fetch user  data from db and create a composite user object
-          // NOTE:  not needed for protected route.  used mainly in withUserHOC
-          // props.firebase._updateUserState(authUser).then(user=>{ // do something})
-
-          // else will show protected route...
+          // else proceed to the protected route...
         }
-      };
-      let endListener = props.firebase.auth.onAuthStateChanged(onAuthChange);
+      });
 
       // cleanup on unmount
       return () => {
         endListener();
       };
-    }, [props.firebase.auth , props.history]); 
+    }, [props.firebase.auth, props.history]);
 
     // return home page, or null if authed user not registered in <App /> context provider
     return authUserContext ? (

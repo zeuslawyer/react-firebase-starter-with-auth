@@ -7,7 +7,7 @@ import Home from '../Home';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import Account from '../Account';
-import Admin from '../AppAdmin';
+import Admin from '../AppAdmin/index';
 import PasswordForgetPage from '../PasswordForget';
 import * as ROUTES from '../../constants/routes';
 import { WithUserContextProvider } from '../../services/firebase';

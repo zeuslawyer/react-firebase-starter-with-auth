@@ -1,6 +1,7 @@
 import React from 'react';
 
 import withFirebase from '../../services/firebase/FirebaseContextHOC';
+import ROLES from '../../constants/roles';
 import { useDataFetcher } from '../../hooks/useDataFetcher';
 import { useFormInputHook } from '../../hooks/formInputHook';
 
@@ -104,11 +105,12 @@ const MessageItem = ({ message, removeMessage, updateMessage, user }) => {
     setEditMode(false);
   };
 
+  console.log('hmm', user.role === ROLES.ADMIN_USER )
   return (
     <li>
       {!editMode ? (
         <span>
-          <strong>{message.userId || 'Unidentified User'}</strong>:
+          <strong>{message.userId || 'Unidentified User'}</strong> :
           {message.text}
           {message.updatedAt && (
             <span>
@@ -117,7 +119,7 @@ const MessageItem = ({ message, removeMessage, updateMessage, user }) => {
               </small>
             </span>
           )}
-          {message.userId === user.uid ? (
+          {message.userId === user.uid || user.role === ROLES.SITE_ADMIN ? (
             <>
               <button type='button' onClick={() => removeMessage(message.id)}>
                 X
